@@ -21,3 +21,4 @@ class Solution:
 
 a = Solution()
 print(a.lengthOfLongestSubstring("abcabcdd"))
+
