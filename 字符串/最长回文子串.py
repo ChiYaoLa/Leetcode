@@ -22,3 +22,5 @@ class Solution:
 
 a = Solution()
 print(a.longestPalindrome("babad"))
+
+
