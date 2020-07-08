@@ -2,7 +2,7 @@
 # @Time    : 2020/7/6 16:15
 
 class Solution:
-    def generateParenthesis(self, n: int) -> List[str]:
+    def generateParenthesis(self, n):
         ans = []
         def backtrack(S, left, right):
             if len(S) == 2 * n:
@@ -19,3 +19,6 @@ class Solution:
 
         backtrack([], 0, 0)
         return ans
+
+a = Solution()
+print(a.generateParenthesis(2))
