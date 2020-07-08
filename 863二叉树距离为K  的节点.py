@@ -8,6 +8,7 @@
 #         self.left = None
 #         self.right = None
 
+# hao
 class Solution(object):
     def __init__(self):
         self.k_steps_nodes = [] # 距离为K的节点值
