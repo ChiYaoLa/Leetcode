@@ -15,8 +15,8 @@ https://leetcode-cn.com/problems/all-nodes-distance-k-in-binary-tree/solution/ji
 class Solution(object):
     def __init__(self):
         self.k_steps_nodes = [] # 距离为K的节点值
-        self.path_root2target = [] # 从root到target的沿线节点
-        self.all_path_root2target = []
+        self.targetNode = None
+
     def distanceK(self, root, target, K):
         """
         :type root: TreeNode
@@ -24,55 +24,45 @@ class Solution(object):
         :type K: int
         :rtype: List[int]
         """
-        target = self.searchTarget(root,target)
-        if target == None:
+        self.dfs(root,target)
+        if self.targetNode == None:
             return []
-        self.searchKsteps_down(target,K) # 往下找
+        self.searchKsteps(target,K) # 往下找
+        i = K
+        while(self.targetNode.parent and i != 0):  # 向上找
+            self.targetNode = self.targetNode.parent
+            self.searchKsteps(self.targetNode,i-1)
+
+        return self.k_steps_nodes
 
 
-
-
-
-
+    # 寻找target
+    def dfs(self,root,target):
+        if root is None:
+            return root
+        if root.val == target.val:
+            self.targetNode = root
+        if root.left:
+            root.left.parent = root # 顺手改指针指向
+            self.dfs(root.left,target)
+        if root.right:
+            root.right.parent = root
+            self.dfs(root.right,target)
 
 
     # 从root出发往下搜索k步
-    def searchKsteps_down(self, root, K):
+    def searchKsteps(self, root, K):
         if K == 0:
             self.k_steps_nodes.append(root.val)
             return root
         if root is None:
             return root
         if root.left:
-            self.searchKsteps_down(root.left, K - 1)
+            self.searchKsteps(root.left, K-1)
         if root.right:
-            self.searchKsteps_down(root.right, K - 1)
-
-    # 往上搜索
-    # def searchKsteps_up(self,target,K):
-    #     for path in self.all_path_root2target:
-    #         if len(path)>=3:
-    #             self.k_steps_nodes.append(path[-2].val)  # 倒数第三个
-    #         else:
-    #             self.searchKsteps_down(target.right,K-len(path))
-    #             self.searchKsteps_down(target.left, K - len(path))
+            self.searchKsteps(root.right, K -1)
 
 
-
-
-    # 搜索目标
-    # def searchTarget(self,root,target,steps):
-    #     if root is None:
-    #         return root
-    #     if root.val == target:
-    #         self.path_root2target.append(root)
-    #         self.all_path_root2target(self.path_root2target)
-    #         return root
-    #     self.path_root2target.append(root)
-    #     if root.left:
-    #         self.searchTarget(root.left,target,steps+1)
-    #     if root.right:
-    #         self.searchTarget(root.right,target,steps+1)
 
 
 
